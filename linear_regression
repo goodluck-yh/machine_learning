@@ -1,0 +1,82 @@
+import os
+import pandas
+import numpy as np
+
+
+# 计算误差函数
+def calc_err_val(X, y, theta):
+    """这个用来计算误差值
+    :param
+    X: is the value of real input
+    y: is the value of real result
+    theta: is the argument, and is what we want to calculate
+
+    It use the Error Function = sum((X * theta.T - y)^2)/(2*m)
+    """
+
+    inner = np.power(((X * theta.T) - y), 2)
+    return np.sum(inner) / (2 * len(X))
+
+
+def graidentDescent(X, y, theta, alpha, iters):
+    """
+    This function implement the gradient descent algorithm
+
+    :param X: is the real input
+    :param y: is the real output
+    :param theta: is the argument which we want to calculate
+    :param alpha: is the step we use in iterations
+    :param iters: is the number of iterations
+    :return: the cost
+    """
+
+
+
+if __name__ == '__main__':
+    # 设置路径，为./data/ex1data1.txt。之所有这么用是为了跨平台
+    path = os.path.join('data', 'ex1data1.txt')
+
+    # 从path读读取数据，有两列，名字为Population和Profit。这里names长度与数据读取长度一致
+    # header是指首行是原来第几行
+    data = pandas.read_csv(path, header=None, names=['Population', 'Profit'])
+
+    # 在第一列插入，名字是'Ones', 值是1
+    data.insert(0, 'Ones', 1)
+    # print(data)
+
+    # get the number of columns
+    cols = data.shape[1]
+
+    # get first col and second col
+    # the first parameter refer to the first dimension
+    # the second parameter refer to the second dimension
+    X = data.iloc[:, 0: cols-1]
+    # get last col
+    y = data.iloc[:, cols-1: cols]
+
+    # X.values is 2D array which stores the value of X
+    # the type of X.values is nd array
+    # after statement, X is the matrix
+    X = np.matrix(X.values)
+    y = np.matrix(y.values)
+
+    # theta is a 1 * (cols-1) matrix which all values are 0
+    theta = np.matrix(np.zeros((1, cols-1)))
+
+    cost = calc_err_val(X, y, theta)
+
+    alpha = 0.01
+    iters = 1000
+
+    g, cost = graidentDescent(X, y, theta, alpha, iters)
+
+
+
+
+
+
+
+
+
+
+
